@@ -86,7 +86,7 @@ roslaunch hector_slam_launch tutorial.launch
 ```
 
 # References
-https://github.com/robopeak/rplidar_ros
+https://github.com/robopeak/rplidar_ros  
 https://github.com/tu-darmstadt-ros-pkg/hector_slam
 
 Make sure the following has been modified.
