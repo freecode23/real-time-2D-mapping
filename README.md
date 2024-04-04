@@ -2,20 +2,20 @@
 https://github.com/robopeak/rplidar_ros
 https://github.com/tu-darmstadt-ros-pkg/hector_slam
 
-# Make sure the following has been modified.
+Make sure the following has been modified.
 In `hector_slam-noetic-devel/hector_mapping/launch/mapping_default.launch` on line 5 , 6, and 55 to say that we will not have a base_footprint and that our baselink, that is we are on the ground and flat. The base link will be our odometry frame.
 
 In `hector_slam-noetic-devel/hector_slam_launch/launch/tutorial.launch` to use real time instead of simulation on line 7.
 
-# Build and Run.
+# Build and Run
 
-Add the authority to write to USB serial:
+1. Add the authority to write to USB serial:
 ```
 ls -l /dev |grep ttyUSB
 sudo chmod 666 /dev/ttyUSB0
 ```
 
-In your workspace directory, run:
+2. In your workspace directory, run:
 ```
 catkin_make
 ```
@@ -24,15 +24,17 @@ Then to ensure that your shell environment is updated to include the latest chan
 source ./devel/setup.bash
 ```
 
-Run RP lidar with RVIZ:
+3. Run RP lidar with RVIZ:
 ```
 roslaunch rplidar_ros view_rplidar.launch
 ```
 without RVIZ:
+```
 roslaunch rplidar_ros rplidar.launch
+```
 
 
-Check the scan topic:
+4. Check the scan topic:
 ```
 rostopic echo /scan
 ```
@@ -54,7 +56,7 @@ range_max: 12.0
 ranges: [inf, 0.4059999883174896
 ```
 
-Run hector slam:
+5. Run hector slam:
 ```
 roslaunch hector_slam_launch tutorial.launch
 ```
