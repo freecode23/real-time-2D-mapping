@@ -13,7 +13,7 @@ sudo snap install rpi-imager
 ## 2. Clone this github repo on your Pi.
 
 # Build the workspace and Run master and the LiDAR Driver.
-## 1. On your PC
+## 1. In your PC
 
 1. Build the workspace
 ```
@@ -31,20 +31,23 @@ roscore
 ```
 
 
-## 2 On Pi:
-1. Add the authority to write to USB serial:
+## 2.In RPi:
+1. ssh into your Pi:
+
+
+2. Add the authority to write to USB serial:
 ```
 ls -l /dev |grep ttyUSB
 sudo chmod 666 /dev/ttyUSB0
 ```
 
-2. In your workspace directory, run:
+3. In your workspace directory, run:
 ```
 catkin_make
 source ./devel/setup.bash
 ```
 
-3. Run RP lidar without RVIZ:
+4. Run RP lidar without RVIZ:
 ```
 roslaunch rplidar_ros rplidar.launch
 ```
