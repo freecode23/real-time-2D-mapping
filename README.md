@@ -1,4 +1,4 @@
-# Prerequsites
+# Prerequisites
 ## 1. Set the OS for your Pi
 The easisest way to set this is to use raspberry pi imager.
 you can install it using:
