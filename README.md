@@ -30,8 +30,6 @@ NOTE:
 1. If you encounter an error `Lzma library error: Corrupted input data` while writing the image to the SD card, this means the downloaded ubuntu OS image stored in cache is corrupted. To fix this, you can either try to find the cached image and delete them, or uninstall thre rpi-imager using `sudo snap remove rpi-imager`, then reinstall it so that the image will be redownloaded fresh.
 2. Credits to: https://www.youtube.com/watch?v=P_-_1Ab5jFM
 
-## 2. Clone this github repo on your Pi.
-
 # Build the workspace and Run master and the LiDAR Driver.
 ## 1. In your PC
 
@@ -61,13 +59,15 @@ ls -l /dev |grep ttyUSB
 sudo chmod 666 /dev/ttyUSB0
 ```
 
-3. In your workspace directory, run:
+3. Clone this repository. This will be your catkin workspace directory.
+
+4. cd into the workspace directory and run:
 ```
 catkin_make
 source ./devel/setup.bash
 ```
 
-4. Run RP lidar without RVIZ:
+5. Run RP lidar without RVIZ:
 ```
 roslaunch rplidar_ros rplidar.launch
 ```
