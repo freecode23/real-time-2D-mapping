@@ -8,23 +8,96 @@ sudo snap install rpi-imager
 1. Select the hardware: Raspberry Pi4
 2. Select Ubuntu 20.04.5 (64 bits) as the OS.
 3. Once the write is done, unplug ssd and replug. 
-4. Then check into the files under the directory:
-`/media/sherly/system-boot`
-
-5. Run `lsblk` to list all block devices and their partitions. You should see something like:
+4. Run `lsblk` to list all block devices and their partitions. You should see something like:
 ```
 sdb      8:16   1  59.7G  0 disk 
 ├─sdb1   8:17   1   256M  0 part /media/sherly/system-boot
 └─sdb2   8:18   1   3.1G  0 part /media/sherly/writable
 
 ```
+5. Then check into the files under the directory:
+`/media/sherly/system-boot`
 ## TODO:
-6. Go into the `system-boot` directory and change the wifi settings in the `network-setting` file.
-7. Enable `ssh` by manually change the file in the SSD card.
-8.
-9.
-10.
-11. Check that you can now `ssh` into your Raspberry PI from your PC.
+6. Go into the `system-boot` directory and change the wifi settings in the `network-setting` file like below:
+
+```
+version: 2
+ethernets:
+  eth0:
+    dhcp4: true
+    optional: true
+wifis:
+ wlan0:
+   dhcp4: true
+   optional: true
+   access-points:
+     myhomewifi: Home_wifi
+       password: "1123581321"
+#      myworkwifi:
+#        password: "correct battery horse staple"
+#      workssid:
+#        auth:
+#          key-management: eap
+#          method: peap
+#          identity: "me@example.com"
+#          password: "passw0rd"
+#          ca-certificate: /etc/my_ca.pem
+```
+7. Also change the `/media/sherly/system-boot/user-data` to allow ssh. By adding a command at the end of the file:
+```
+## Run arbitrary commands at rc.local like time
+runcmd:
+- [sudo, apt, update]
+- [sudo, apt, install, openssh-server, -y]
+#- [ ls, -l, / ]
+#- [ sh, -xc, "echo $(date) ': hello world!'" ]
+#- [ wget, "http://ubuntu.com", -O, /run/mydir/index.html ]
+```
+
+8. Get the ip address of your machine by entering `ifconfig` on your terminal. Then you should see something like below if you connect via ethernet:
+Notice the enx prefix. this means this is an ethernet connection.
+```
+enx00e04c681fa8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.42.0.1  netmask 255.255.255.0  broadcast 10.42.0.255
+        inet6 fe80::bd33:4018:36b3:fe02  prefixlen 64  scopeid 0x20<link>
+        ether 00:e0:4c:68:1f:a8  txqueuelen 1000  (Ethernet)
+        RX packets 116  bytes 13444 (13.4 KB)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 178  bytes 141691 (141.6 KB)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+```
+9. Find the ip address of the raspberry pi using nmap:
+```
+nmap -p 22 10.42.0.0/24 --open
+```
+Then you should see something like:
+```
+Starting Nmap 7.80 ( https://nmap.org ) at 2024-04-05 17:11 EDT
+Nmap scan report for sherly-Inspiron-15-3510 (10.42.0.1)
+Host is up (0.00050s latency).
+
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap scan report for 10.42.0.215
+Host is up (0.00056s latency).
+
+PORT   STATE SERVICE
+22/tcp open  ssh
+
+Nmap done: 256 IP addre
+```
+
+10. Copy the ip address of the pi: `10.42.0.215`
+
+11. Check that you can now `ssh` into your Raspberry PI from your PC:
+```
+ssh ubuntu@10.42.0.215
+```
+
+12. It will ask you for the password if you ssh into this for the first time. The default password is just `ubuntu`
+
+13. You can now log in again using your newly set password.
 
 NOTE:
 1. If you encounter an error `Lzma library error: Corrupted input data` while writing the image to the SD card, this means the downloaded ubuntu OS image stored in cache is corrupted. To fix this, you can either try to find the cached image and delete them, or uninstall thre rpi-imager using `sudo snap remove rpi-imager`, then reinstall it so that the image will be redownloaded fresh.
@@ -51,7 +124,9 @@ roscore
 
 ## Step 2. Run LiDAR driver in Raspberry Pi
 1. ssh into your Pi from your PC terminal:
-
+```
+ssh ubuntu@10.42.0.215
+```
 
 2. Add the authority to write to USB serial:
 ```
