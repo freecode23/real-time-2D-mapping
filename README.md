@@ -1,10 +1,11 @@
 # Prerequisites
 ## Install Ubuntu OS for your Pi
-The easisest way to set this is to use raspberry pi imager.
-you can install it using:
+The easisest way to set this is to use Raspberry Pi Imager.
+You can install it using snap if you are in ubuntu 20.04 or lower:
 ```
 sudo snap install rpi-imager
 ```
+If you are using later version, you can install the official version here https://www.raspberrypi.com/software/.
 1. Select the hardware: Raspberry Pi4
 2. Select Ubuntu 20.04.5 (64 bits) as the OS.
 3. Once the write is done, unplug ssd and replug. 
@@ -103,7 +104,13 @@ ssh ubuntu@10.42.0.215
 https://wiki.ros.org/noetic/Installation/Ubuntu
 ```
 
-15. 
+15. Run the following on your PI, so that your pi can connect to the master node on your PC.
+export ROS_MASTER_URI=http://10.42.0.1:11311
+export ROS_IP=10.42.0.215
+
+16. Run the following on your PC:
+export ROS_MASTER_URI=http://10.42.0.1:11311
+export ROS_IP=10.42.0.1
 
 NOTE:
 1. If you encounter an error `Lzma library error: Corrupted input data` while writing the image to the SD card, this means the downloaded ubuntu OS image stored in cache is corrupted. To fix this, you can either try to find the cached image and delete them, or uninstall thre rpi-imager using `sudo snap remove rpi-imager`, then reinstall it so that the image will be redownloaded fresh.
