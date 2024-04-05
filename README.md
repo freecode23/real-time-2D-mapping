@@ -15,10 +15,7 @@ sdb      8:16   1  59.7G  0 disk
 └─sdb2   8:18   1   3.1G  0 part /media/sherly/writable
 
 ```
-5. Then check into the files under the directory:
-`/media/sherly/system-boot`
-## TODO:
-6. Go into the `system-boot` directory and change the wifi settings in the `network-setting` file like below:
+5. Go into the `system-boot` directory and change the wifi settings in the `network-setting` file like below:
 
 ```
 version: 2
@@ -43,7 +40,7 @@ wifis:
 #          password: "passw0rd"
 #          ca-certificate: /etc/my_ca.pem
 ```
-7. Also change the `/media/sherly/system-boot/user-data` to allow ssh. By adding a command at the end of the file:
+6. Also change the `/media/sherly/system-boot/user-data` to allow ssh. By adding a command at the end of the file:
 ```
 ## Run arbitrary commands at rc.local like time
 runcmd:
@@ -54,7 +51,7 @@ runcmd:
 #- [ wget, "http://ubuntu.com", -O, /run/mydir/index.html ]
 ```
 
-8. Get the ip address of your machine by entering `ifconfig` on your terminal. Then you should see something like below if you connect via ethernet:
+7. Get the ip address of your machine by entering `ifconfig` on your terminal. Then you should see something like below if you connect via ethernet:
 Notice the enx prefix. this means this is an ethernet connection.
 ```
 enx00e04c681fa8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
@@ -66,7 +63,7 @@ enx00e04c681fa8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         TX packets 178  bytes 141691 (141.6 KB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
-9. Find the ip address of the raspberry pi using nmap:
+8. Find the ip address of the raspberry pi using nmap:
 ```
 nmap -p 22 10.42.0.0/24 --open
 ```
@@ -88,25 +85,25 @@ PORT   STATE SERVICE
 Nmap done: 256 IP addre
 ```
 
-10. Copy the ip address of the pi: `10.42.0.215`
+9. Copy the ip address of the pi: `10.42.0.215`
 
-11. Check that you can now `ssh` into your Raspberry PI from your PC:
+10. Check that you can now `ssh` into your Raspberry PI from your PC:
 ```
 ssh ubuntu@10.42.0.215
 ```
 
-12. It will ask you for the password if you ssh into this for the first time. The default password is just `ubuntu`
+11. It will ask you for the password if you ssh into this for the first time. The default password is just `ubuntu`
 
-13. You can now log in again using your newly set password.
+12. You can now log in again using your newly set password.
 
-14. Download git and clone this repo.
+13. Download git and clone this repo.
 
-15. install catkin on pi:
+14. Install ros noetic on the pi:
 ```
-sudo apt install catkin
+https://wiki.ros.org/noetic/Installation/Ubuntu
 ```
 
-16.
+15. 
 
 NOTE:
 1. If you encounter an error `Lzma library error: Corrupted input data` while writing the image to the SD card, this means the downloaded ubuntu OS image stored in cache is corrupted. To fix this, you can either try to find the cached image and delete them, or uninstall thre rpi-imager using `sudo snap remove rpi-imager`, then reinstall it so that the image will be redownloaded fresh.
