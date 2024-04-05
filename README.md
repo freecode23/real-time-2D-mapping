@@ -27,12 +27,12 @@ ethernets:
     dhcp4: true
     optional: true
 wifis:
- wlan0:
-   dhcp4: true
-   optional: true
-   access-points:
-     myhomewifi: Home_wifi
-       password: "1123581321"
+  wlan0:
+    dhcp4: true
+    optional: true
+    access-points:
+      Home_wifi:
+      password: "1123581321"
 #      myworkwifi:
 #        password: "correct battery horse staple"
 #      workssid:
@@ -99,6 +99,15 @@ ssh ubuntu@10.42.0.215
 
 13. You can now log in again using your newly set password.
 
+14. Download git and clone this repo.
+
+15. install catkin on pi:
+```
+sudo apt install catkin
+```
+
+16.
+
 NOTE:
 1. If you encounter an error `Lzma library error: Corrupted input data` while writing the image to the SD card, this means the downloaded ubuntu OS image stored in cache is corrupted. To fix this, you can either try to find the cached image and delete them, or uninstall thre rpi-imager using `sudo snap remove rpi-imager`, then reinstall it so that the image will be redownloaded fresh.
 2. Credits to: https://www.youtube.com/watch?v=P_-_1Ab5jFM
@@ -123,18 +132,17 @@ roscore
 
 
 ## Step 2. Run LiDAR driver in Raspberry Pi
+
 1. ssh into your Pi from your PC terminal:
 ```
 ssh ubuntu@10.42.0.215
 ```
 
-2. Add the authority to write to USB serial:
+3. Add the authority to write to USB serial:
 ```
 ls -l /dev |grep ttyUSB
 sudo chmod 666 /dev/ttyUSB0
 ```
-
-3. Clone this repository. This will be your catkin workspace directory.
 
 4. cd into the workspace directory and run:
 ```
