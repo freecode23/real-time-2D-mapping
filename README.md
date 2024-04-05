@@ -30,7 +30,8 @@ NOTE:
 1. If you encounter an error `Lzma library error: Corrupted input data` while writing the image to the SD card, this means the downloaded ubuntu OS image stored in cache is corrupted. To fix this, you can either try to find the cached image and delete them, or uninstall thre rpi-imager using `sudo snap remove rpi-imager`, then reinstall it so that the image will be redownloaded fresh.
 2. Credits to: https://www.youtube.com/watch?v=P_-_1Ab5jFM
 
-## 1. Run ros master node in your PC
+# Quick Start
+## Step 1. Run ros master node in your PC
 
 1. Build the workspace
 ```
@@ -48,7 +49,7 @@ roscore
 ```
 
 
-## 2. Run LiDAR driver in Raspberry Pi
+## Step 2. Run LiDAR driver in Raspberry Pi
 1. ssh into your Pi from your PC terminal:
 
 
@@ -75,7 +76,7 @@ If you connect LiDAR directly to you PC you can visualize with RVIZ:
 roslaunch rplidar_ros rplidar.launch
 ```
 
-## 3. Run Hector SLAM in your PC
+## Step 3. Run Hector SLAM in your PC
 1. Check that the scan topic is publishing messages:
 ```
 rostopic echo /scan
