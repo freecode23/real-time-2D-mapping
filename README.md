@@ -1,5 +1,5 @@
 # Prerequisites
-## 1. Set the OS for your Pi
+## 1. Install Ubuntu OS for your Pi
 The easisest way to set this is to use raspberry pi imager.
 you can install it using:
 ```
@@ -7,8 +7,28 @@ sudo snap install rpi-imager
 ```
 1. Select the hardware: Raspberry Pi4
 2. Select Ubuntu 20.04.5 (64 bits) as the OS.
-3. Enable ssh by manually change the file in the SSD
-4. Set up the wifi and password by manually change the file in SSD
+3. Once the write is done, unplug ssd and replug. 
+4. Then check into the files under the directory:
+`/media/sherly/system-boot`
+
+5. Run `lsblk` to list all block devices and their partitions. You should see something like:
+```
+sdb      8:16   1  59.7G  0 disk 
+├─sdb1   8:17   1   256M  0 part /media/sherly/system-boot
+└─sdb2   8:18   1   3.1G  0 part /media/sherly/writable
+
+```
+## TODO:
+6. Go into the `system-boot` directory and change the wifi settings in the `network-setting` file.
+7. Enable `ssh` by manually change the file in the SSD card.
+8.
+9.
+10.
+11. Check that you can now `ssh` into your Raspberry PI from your PC.
+
+NOTE:
+1. If you encounter an error `Lzma library error: Corrupted input data` while writing the image to the SD card, this means the downloaded ubuntu OS image stored in cache is corrupted. To fix this, you can either try to find the cached image and delete them, or uninstall thre rpi-imager using `sudo snap remove rpi-imager`, then reinstall it so that the image will be redownloaded fresh.
+2. Credits to: https://www.youtube.com/watch?v=P_-_1Ab5jFM
 
 ## 2. Clone this github repo on your Pi.
 
@@ -31,8 +51,8 @@ roscore
 ```
 
 
-## 2.In RPi:
-1. ssh into your Pi:
+## 2. In Raspberry Pi
+1. ssh into your Pi from your PC terminal:
 
 
 2. Add the authority to write to USB serial:
@@ -51,14 +71,13 @@ source ./devel/setup.bash
 ```
 roslaunch rplidar_ros rplidar.launch
 ```
-
 If you connect LiDAR directly to you PC you can visualize with RVIZ:
 ```
 roslaunch rplidar_ros rplidar.launch
 ```
 
 ## 3. Run Hector SLAM on PC
-1. Check the scan topic:
+1. Check that the scan topic is publishing messages:
 ```
 rostopic echo /scan
 ```
@@ -80,7 +99,7 @@ range_max: 12.0
 ranges: [inf, 0.4059999883174896
 ```
 
-2. Run hector slam:
+2. Run Hector SLAM:
 ```
 roslaunch hector_slam_launch tutorial.launch
 ```
