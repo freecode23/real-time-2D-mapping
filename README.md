@@ -1,5 +1,5 @@
 # Prerequisites
-## 1. Install Ubuntu OS for your Pi
+## Install Ubuntu OS for your Pi
 The easisest way to set this is to use raspberry pi imager.
 you can install it using:
 ```
