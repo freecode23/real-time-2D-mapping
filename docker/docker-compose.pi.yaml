@@ -6,18 +6,15 @@ services:
 
     volumes:
       - ../lidar_mapping_ws/src:/app/src
-      - /tmp/.X11-unix:/tmp/.X11-unix
 
     devices:
       - /dev/ttyUSB0:/dev/ttyUSB0
-      - /dev/dri:/dev/dri
     
     environment:
       - "ROS_MASTER_URI=http://10.0.0.59:11311"
       # the IP address of the Pi container.
       - "ROS_IP=10.0.0.82"
       - "ROS_PACKAGE_PATH=/app/src"
-      - "DISPLAY=${DISPLAY}"
 
     # This will override command written in CMD in Dockerfile
     command:  bash -c "source /app/devel/setup.bash && roslaunch rplidar_ros rplidar.launch"

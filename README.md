@@ -1,5 +1,11 @@
-# Prerequisites
-## Install Ubuntu OS for your Pi
+
+## Table of Contents
+1. [Prerequisites](#1-prerequisites)
+2. [Quick Start](#2-quick-start)  
+2.1. [Run with Docker](#option-1-to-run-in-docker)  
+2.2. [Run without Docker](#option-2-run-lidar-and-mapping-without-docker)
+# 1. Prerequisites
+## 1.1 Install Ubuntu OS for your Pi
 The easisest way to set this is to use Raspberry Pi Imager.
 You can install it using snap if you are in ubuntu 20.04 or lower:
 ```
@@ -122,6 +128,7 @@ export ROS_IP=10.42.0.215
 export ROS_MASTER_URI=http://10.42.0.1:11311
 export ROS_IP=10.42.0.1
 
+
 ### For wifi:
 15. Run the following on your PI:
 export ROS_MASTER_URI=http://10.0.0.59:11311
@@ -135,8 +142,44 @@ NOTE:
 1. If you encounter an error `Lzma library error: Corrupted input data` while writing the image to the SD card, this means the downloaded ubuntu OS image stored in cache is corrupted. To fix this, you can either try to find the cached image and delete them, or uninstall thre rpi-imager using `sudo snap remove rpi-imager`, then reinstall it so that the image will be redownloaded fresh.
 2. Credits to: https://www.youtube.com/watch?v=P_-_1Ab5jFM
 
-# Quick Start
-## Step 1. Run ros master node in your PC
+
+## 1.2 Install Docker and docker compose on your Pi and PC.
+```
+https://docs.docker.com/compose/install/linux/#install-using-the-repository
+```
+
+# 2. Quick Start
+1. Make sure that Rpi is connected to wifi:
+```
+nmap -p 22 10.0.0.0/24 --open
+```
+
+2. ssh into your Pi from your PC terminal:
+```
+ssh ubuntu@10.0.0.82
+```
+## Option 1. To run in Docker:
+On your PC:
+```
+docker compose -f docker-compose.pc.yaml up --build
+```
+On your Pi:
+```
+docker compose -f docker-compose.pi.yaml up --build
+```
+
+To brind down the container:
+On your PC:
+```
+docker compose -f docker-compose.pc.yaml down
+```
+On your Pi:
+```
+docker compose -f docker-compose.pi.yaml down
+```
+
+## Option 2. Run LiDAR and Mapping without Docker
+### Step 1. Run ROS master node in your PC
 
 1. Build the workspace
 ```
@@ -154,26 +197,20 @@ roscore
 ```
 
 
-## Step 2. Run LiDAR driver in Raspberry Pi
-
-1. ssh into your Pi from your PC terminal:
-```
-ssh ubuntu@10.42.0.215
-```
-
-3. Add the authority to write to USB serial:
+### Step 2. Run LiDAR driver in Raspberry Pi
+1. Add the authority to write to USB serial:
 ```
 ls -l /dev |grep ttyUSB
 sudo chmod 666 /dev/ttyUSB0
 ```
 
-4. cd into the workspace directory and run:
+2. cd into the workspace directory and run:
 ```
 catkin_make
 source ./devel/setup.bash
 ```
 
-5. Run RP lidar without RVIZ:
+3. Run RP lidar without RVIZ:
 ```
 roslaunch rplidar_ros rplidar.launch
 ```
@@ -182,7 +219,7 @@ If you connect LiDAR directly to you PC you can visualize with RVIZ:
 roslaunch rplidar_ros view_rplidar.launch
 ```
 
-## Step 3. Run Hector SLAM in your PC
+### Step 3. Run Hector SLAM in your PC
 1. Check that the scan topic is publishing messages:
 ```
 rostopic echo /scan
@@ -211,10 +248,6 @@ source ./devel/setup.bash
 roslaunch hector_slam_launch tutorial.launch
 ```
 
-## To run with Docker file:
-docker run --volume=/tmp/.X11-unix:/tmp/.X11-unix --device=/dev/dri:/dev/dri --env="DISPLAY=$DISPLAY" --net=host rviz-docker
-
-docker compose -f docker-compose.pi.yaml up --build
 # References
 https://github.com/robopeak/rplidar_ros  
 https://github.com/tu-darmstadt-ros-pkg/hector_slam
