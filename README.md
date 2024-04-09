@@ -29,8 +29,8 @@ wifis:
     dhcp4: true
     optional: true
     access-points:
-      Home_wifi:
-      password: "1123581321"
+      "Home_wifi":
+        password: "1123581321"
 #      myworkwifi:
 #        password: "correct battery horse staple"
 #      workssid:
@@ -47,10 +47,13 @@ wifis:
 runcmd:
 - [sudo, apt, update]
 - [sudo, apt, install, openssh-server, -y]
+- [nmcli, radio, wifi, on]
+- [nmcli, device, wifi, connect, "Home_wifi", password, "1123581321"]
 #- [ ls, -l, / ]
 #- [ sh, -xc, "echo $(date) ': hello world!'" ]
 #- [ wget, "http://ubuntu.com", -O, /run/mydir/index.html ]
 ```
+
 
 7. Get the ip address of your machine by entering `ifconfig` on your terminal. Then you should see something like below if you connect via ethernet:
 Notice the enx prefix. this means this is an ethernet connection.
@@ -67,6 +70,7 @@ enx00e04c681fa8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
 8. Find the ip address of the raspberry pi using nmap:
 ```
 nmap -p 22 10.42.0.0/24 --open
+nmap -p 22 10.0.0.0/24 --open
 ```
 Then you should see something like:
 ```
@@ -86,11 +90,17 @@ PORT   STATE SERVICE
 Nmap done: 256 IP addre
 ```
 
-9. Copy the ip address of the pi: `10.42.0.215`
+9. Copy the ip address of the pi: 
+for ethernet: 10.42.0.215
+for wifi: 10.0.0.82
 
 10. Check that you can now `ssh` into your Raspberry PI from your PC:
 ```
 ssh ubuntu@10.42.0.215
+```
+for wifi:
+```
+ssh ubuntu@10.0.0.82
 ```
 
 11. It will ask you for the password if you ssh into this for the first time. The default password is just `ubuntu`
@@ -111,6 +121,15 @@ export ROS_IP=10.42.0.215
 16. Run the following on your PC:
 export ROS_MASTER_URI=http://10.42.0.1:11311
 export ROS_IP=10.42.0.1
+
+### For wifi:
+15. Run the following on your PI:
+export ROS_MASTER_URI=http://10.0.0.59:11311
+export ROS_IP=10.0.0.82
+
+16. Run the following on your PC:
+export ROS_MASTER_URI=http://10.0.0.59:11311
+export ROS_IP=10.0.0.59
 
 NOTE:
 1. If you encounter an error `Lzma library error: Corrupted input data` while writing the image to the SD card, this means the downloaded ubuntu OS image stored in cache is corrupted. To fix this, you can either try to find the cached image and delete them, or uninstall thre rpi-imager using `sudo snap remove rpi-imager`, then reinstall it so that the image will be redownloaded fresh.
@@ -160,7 +179,7 @@ roslaunch rplidar_ros rplidar.launch
 ```
 If you connect LiDAR directly to you PC you can visualize with RVIZ:
 ```
-roslaunch rplidar_ros rplidar.launch
+roslaunch rplidar_ros view_rplidar.launch
 ```
 
 ## Step 3. Run Hector SLAM in your PC
@@ -188,6 +207,7 @@ ranges: [inf, 0.4059999883174896
 
 2. Run Hector SLAM:
 ```
+source ./devel/setup.bash
 roslaunch hector_slam_launch tutorial.launch
 ```
 
