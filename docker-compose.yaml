@@ -1,4 +1,3 @@
-version: '3.7'
 services:
   cpu-node:
     build:
@@ -7,16 +6,19 @@ services:
     # 'volumes'maps the src directory in your workspace to the src directory in the container,
     # so that changes to your local files are reflected in the container.
     volumes:
-      - ./src:/app/src
+      - ../src:/app/src
       - /tmp/.X11-unix:/tmp/.X11-unix  # Mount the X11 socket
-
+    devices:
+      - /dev/dri:/dev/dri
     environment:
-      - "ROS_MASTER_URI=http://10.42.0.1:11311"
+      # - "ROS_MASTER_URI=http://10.42.0.1:11311"
+      # - "ROS_IP=10.42.0.1"
+      - "ROS_MASTER_URI=http://10.0.0.59:11311"
+      - "ROS_IP=10.0.0.59"
+
       # This is the ip of cpu_node. we need this to communicate with nodes in other container
-      - "ROS_IP=10.42.0.1"
       - "ROS_PACKAGE_PATH=/app/src"
-      - "DISPLAY=${DISPLAY}"  # Use the host's display server
-      - "QT_X11_NO_MITSHM=1"  # Fix for Qt and X11 shared memory issue
+      - "DISPLAY=${DISPLAY}"
 
     # This will override command written in CMD in Dockerfile
     # - ROS launch will run a single ros master and the other nodes stated in the launch file
