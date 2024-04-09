@@ -214,6 +214,7 @@ roslaunch hector_slam_launch tutorial.launch
 ## To run with Docker file:
 docker run --volume=/tmp/.X11-unix:/tmp/.X11-unix --device=/dev/dri:/dev/dri --env="DISPLAY=$DISPLAY" --net=host rviz-docker
 
+docker compose -f docker-compose.pi.yaml up --build
 # References
 https://github.com/robopeak/rplidar_ros  
 https://github.com/tu-darmstadt-ros-pkg/hector_slam
