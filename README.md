@@ -167,6 +167,8 @@ On your Pi:
 ```
 docker compose -f docker-compose.pi.yaml up --build
 ```
+
+For Cartography, run the carto docker compose instead:
 docker compose -f docker-compose.pc-carto.yaml up --build
 docker compose -f docker-compose.pi-carto.yaml up --build
 
