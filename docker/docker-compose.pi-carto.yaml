@@ -1,0 +1,26 @@
+services:
+  pi-node:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile.pi-carto
+
+    volumes:
+      - ../lidar_mapping_ws/src:/app/src
+
+    devices:
+      - /dev/ttyUSB0:/dev/ttyUSB0
+    
+    environment:
+      - "ROS_MASTER_URI=http://10.0.0.59:11311"
+      # the IP address of the Pi container.
+      - "ROS_IP=10.0.0.82"
+      - "ROS_PACKAGE_PATH=/app/src"
+
+    # This will override command written in CMD in Dockerfile
+    command:  bash -c "source /app/devel/setup.bash && roslaunch rplidar_ros rplidar.launch"
+    network_mode: host
+
+    # Allow python to print to output immediately
+    tty: true
+    stdin_open: true
+    privileged: true

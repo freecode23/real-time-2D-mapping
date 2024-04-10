@@ -159,7 +159,7 @@ nmap -p 22 10.0.0.0/24 --open
 ssh ubuntu@10.0.0.82
 ```
 ## Option 1. To run in Docker:
-On your PC:
+On your PC, cd in to the docker/ directory.
 ```
 docker compose -f docker-compose.pc.yaml up --build
 ```
@@ -167,6 +167,8 @@ On your Pi:
 ```
 docker compose -f docker-compose.pi.yaml up --build
 ```
+docker compose -f docker-compose.pc-carto.yaml up --build
+docker compose -f docker-compose.pi-carto.yaml up --build
 
 To brind down the container:
 On your PC:

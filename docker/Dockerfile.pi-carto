@@ -1,0 +1,18 @@
+FROM ros:melodic
+WORKDIR /app
+
+RUN apt-get update
+
+# Install cartographer and rplidar driver:
+RUN apt-get update
+RUN apt install -y ros-melodic-cartographer-ros
+RUN apt install -y ros-melodic-cartographer-rviz ros-melodic-rospack
+RUN apt install -y libgl1-mesa-glx libgl1-mesa-dri libxcb-cursor0 libxcb-xinerama0 \
+  '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev \
+  && rm -rf /var/lib/apt/lists/*
+
+COPY ../lidar_mapping_ws/src/cartographer ./src/cartographer
+COPY ../lidar_mapping_ws/src/rplidar_ros-master ./src/rplidar_ros-master
+
+RUN /bin/bash -c '. /opt/ros/melodic/setup.bash; cd /app; catkin_make clean; catkin_make'
+CMD ["bash", "-c", "source /app/devel/setup.bash && roslaunch rplidar_ros rplidar.launch"]
