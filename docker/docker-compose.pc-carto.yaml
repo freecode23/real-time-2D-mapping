@@ -25,7 +25,7 @@ services:
     # - ROS launch will run a single ros master and the other nodes stated in the launch file
     # - We dont need to make a ros master in another container
     # By running source /app/devel/setup.bash, you're setting up the necessary environment variables to use ROS.
-    command:  bash -c "source /app/devel/setup.bash && roslaunch gbot_core gbot.launch"
+    command:  bash -c "source /app/devel/setup.bash && roslaunch gbot_core visualization.launch"
     network_mode: host
 
     # Allow python to print to output immediately
