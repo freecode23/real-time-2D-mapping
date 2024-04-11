@@ -1,5 +1,6 @@
 # Introduction
 This project is about configure a Raspberry Pi for LiDAR-based mapping, specifically focusing on Hector SLAM and Cartographer mapping techniques. It covers the installation of necessary software on the Raspberry Pi, methods to run the system using Docker, and instructions for executing LiDAR mapping tasks. The documentation is structured to facilitate both Hector SLAM for real-time indoor mapping and Cartographer. Since we are working with two versions of ROS, we will use Docker to isolate and manage the different environments, ensuring compatibility and simplifying the deployment process for each version on the same hardware without interference.
+![Screenshot 2024-04-11 at 3 47 31 PM](https://github.com/freecode23/real-time-2D-mapping/assets/67333705/443ac761-daf4-4661-9805-46e4a012e1a6)
 
 ## Table of Contents
 1. [Prerequisites](#1-prerequisites)
@@ -129,16 +130,14 @@ https://docs.docker.com/compose/install/linux/#install-using-the-repository
 
 # 2. Quick Start
 ## NOTE: Make sure to replace the ip addresses in this instructions with your own ip addresses.
-0. Hardware set up.
-![Screenshot 2024-04-11 at 3 47 31 PM](https://github.com/freecode23/real-time-2D-mapping/assets/67333705/cfcb1353-8ec0-469b-95ce-b70b50522a3f)
+1. Set up your hardware as the picture above.
 
-
-1. Make sure that Pi is connected to wifi:
+2. Make sure that Pi is connected to wifi:
 ```
 nmap -p 22 10.0.0.0/24 --open
 ```
 
-2. ssh into your Pi from your PC terminal:
+3. ssh into your Pi from your PC terminal:
 ```
 ssh ubuntu@10.0.0.82
 ```
