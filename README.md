@@ -1,5 +1,7 @@
+# Introduction
+This project is about configure a Raspberry Pi for LiDAR-based mapping, specifically focusing on Hector SLAM and Cartographer mapping techniques. It covers the installation of necessary software on the Raspberry Pi, methods to run the system using Docker, and instructions for executing LiDAR mapping tasks. The documentation is structured to facilitate both Hector SLAM for real-time indoor mapping and Cartographer 
 
-## Table of Contents
+# Table of Contents
 1. [Prerequisites](#1-prerequisites)
 2. [Quick Start](#2-quick-start)  
 2.1. [Run with Docker](#option-1-to-run-in-docker)  
@@ -149,12 +151,15 @@ https://docs.docker.com/compose/install/linux/#install-using-the-repository
 ```
 
 # 2. Quick Start
-1. Make sure that Rpi is connected to wifi:
+## NOTE: Make sure to replace the ip addresses in this instructions with your own ip addresses.
+1. Clone this repo to both your Pi and PC.
+
+2. Make sure that Pi is connected to wifi:
 ```
 nmap -p 22 10.0.0.0/24 --open
 ```
 
-2. ssh into your Pi from your PC terminal:
+3. ssh into your Pi from your PC terminal:
 ```
 ssh ubuntu@10.0.0.82
 ```
@@ -168,11 +173,13 @@ On your Pi:
 docker compose -f docker-compose.pi.yaml up --build
 ```
 
-For Cartography, run the carto docker compose instead:
+For Cartography, run the `carto` version of docker compose instead:
+```
 docker compose -f docker-compose.pc-carto.yaml up --build
 docker compose -f docker-compose.pi-carto.yaml up --build
+```
 
-To brind down the container:
+To bring down the containers:
 On your PC:
 ```
 docker compose -f docker-compose.pc.yaml down
@@ -182,7 +189,7 @@ On your Pi:
 docker compose -f docker-compose.pi.yaml down
 ```
 
-## Option 2. Run LiDAR and Mapping without Docker
+## Option 2. Run LiDAR and Mapping without Docker (Hector SLAM only)
 ### Step 1. Run ROS master node in your PC
 
 1. Build the workspace
