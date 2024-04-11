@@ -129,6 +129,9 @@ https://docs.docker.com/compose/install/linux/#install-using-the-repository
 
 # 2. Quick Start
 ## NOTE: Make sure to replace the ip addresses in this instructions with your own ip addresses.
+0. Hardware set up.
+![Screenshot 2024-04-11 at 3 47 31 PM](https://github.com/freecode23/real-time-2D-mapping/assets/67333705/cfcb1353-8ec0-469b-95ce-b70b50522a3f)
+
 
 1. Make sure that Pi is connected to wifi:
 ```
