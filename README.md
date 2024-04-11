@@ -1,5 +1,5 @@
 # Introduction
-This project is about configure a Raspberry Pi for LiDAR-based mapping, specifically focusing on Hector SLAM and Cartographer mapping techniques. It covers the installation of necessary software on the Raspberry Pi, methods to run the system using Docker, and instructions for executing LiDAR mapping tasks. The documentation is structured to facilitate both Hector SLAM for real-time indoor mapping and Cartographer 
+This project is about configure a Raspberry Pi for LiDAR-based mapping, specifically focusing on Hector SLAM and Cartographer mapping techniques. It covers the installation of necessary software on the Raspberry Pi, methods to run the system using Docker, and instructions for executing LiDAR mapping tasks. The documentation is structured to facilitate both Hector SLAM for real-time indoor mapping and Cartographer. Since we are working with two versions of ROS, we will use Docker to isolate and manage the different environments, ensuring compatibility and simplifying the deployment process for each version on the same hardware without interference.
 
 ## Table of Contents
 1. [Prerequisites](#1-prerequisites)
@@ -49,7 +49,7 @@ wifis:
 #          password: "passw0rd"
 #          ca-certificate: /etc/my_ca.pem
 ```
-6. Also change the `/media/sherly/system-boot/user-data` to allow ssh. By adding a command at the end of the file:
+6. Also change the `/media/sherly/system-boot/user-data` to allow ssh. By adding the commands at the end of the file. If the above command doesn't work to connect your Pi to wifi you can also connect manually using nmcli.
 ```
 ## Run arbitrary commands at rc.local like time
 runcmd:
@@ -62,14 +62,13 @@ runcmd:
 #- [ wget, "http://ubuntu.com", -O, /run/mydir/index.html ]
 ```
 
-
 7. Get the ip address of your PC by entering `ifconfig` on your terminal. Then you should see something like below:
 For wifi, look for the `wlo` prefix:
 ```
 wlo2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         inet 10.0.0.59  netmask 255.255.255.0  broadcast 10.0.0.255
         inet6 2601:197:a7f:85f0:1e0c:912:4272:9f0f  prefixlen 64  scopeid 0x0<global>
-
+```
 For ethernet look for the `enx` prefix:
 ```
 enx00e04c681fa8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
@@ -81,10 +80,10 @@ enx00e04c681fa8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         TX packets 178  bytes 141691 (141.6 KB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
-```
-Your PC ip address is 10.0.0.59 on wifi, and 10.42.0.1 for ethernet.
 
-8. With this IP address, you can locate your Raspberry Pi using nmap. We will use wifi connection in our example. Simply modify the IP address by replacing the last two segments with 0s. For instance, if your PC's IP address on wifi is 10.0.1.59, change the 1.59 to 0.0 like this:
+Your PC ip address is the address after `inet`. So in this example it's `10.0.0.59` on wifi and `10.42.0.1` for ethernet.
+
+8. With this IP address, you can locate your Raspberry Pi using `nmap`. We will use wifi connection in our example. Simply modify the IP address by replacing the last two segments with 0s. For instance, if your PC's IP address on wifi is 10.0.1.59, change the 1.59 to 0.0 like this:
 ```
 nmap -p 22 10.0.0.0/24 --open
 ```
@@ -105,8 +104,9 @@ PORT   STATE SERVICE
 
 Nmap done: 256 IP addre
 ```
+Note that for wifi, it can take up to 5 mins until you see the Pi address shows up in your nmap result.
 
-9. Copy the ip address of the Pi.
+9. Copy the ip address of the Pi which is the latest ip address listed.
 
 10. Check that you can now `ssh` into your Raspberry PI from your PC:
 ```
@@ -116,7 +116,6 @@ ssh ubuntu@10.0.0.82
 11. It will ask you for the password if you ssh into this for the first time. The default password is `ubuntu`
 
 12. You can now log in again using your newly set password.
-
 
 NOTE:
 1. If you encounter an error `Lzma library error: Corrupted input data` while writing the image to the SD card, this means the downloaded ubuntu OS image stored in cache is corrupted. To fix this, you can either try to find the cached image and delete them, or uninstall thre rpi-imager using `sudo snap remove rpi-imager`, then reinstall it so that the image will be redownloaded fresh.
