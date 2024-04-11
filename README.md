@@ -63,8 +63,14 @@ runcmd:
 ```
 
 
-7. Get the ip address of your machine by entering `ifconfig` on your terminal. Then you should see something like below if you connect via ethernet:
-Notice the enx prefix. this means this is an ethernet connection.
+7. Get the ip address of your PC by entering `ifconfig` on your terminal. Then you should see something like below:
+For wifi, look for the `wlo` prefix:
+```
+wlo2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.0.0.59  netmask 255.255.255.0  broadcast 10.0.0.255
+        inet6 2601:197:a7f:85f0:1e0c:912:4272:9f0f  prefixlen 64  scopeid 0x0<global>
+
+For ethernet look for the `enx` prefix:
 ```
 enx00e04c681fa8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         inet 10.42.0.1  netmask 255.255.255.0  broadcast 10.42.0.255
@@ -75,9 +81,11 @@ enx00e04c681fa8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         TX packets 178  bytes 141691 (141.6 KB)
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
-8. Find the ip address of the raspberry pi using nmap:
 ```
-nmap -p 22 10.42.0.0/24 --open
+Your PC ip address is 10.0.0.59 on wifi, and 10.42.0.1 for ethernet.
+
+8. With this IP address, you can locate your Raspberry Pi using nmap. We will use wifi connection in our example. Simply modify the IP address by replacing the last two segments with 0s. For instance, if your PC's IP address on wifi is 10.0.1.59, change the 1.59 to 0.0 like this:
+```
 nmap -p 22 10.0.0.0/24 --open
 ```
 Then you should see something like:
@@ -89,7 +97,7 @@ Host is up (0.00050s latency).
 PORT   STATE SERVICE
 22/tcp open  ssh
 
-Nmap scan report for 10.42.0.215
+Nmap scan report for 10.0.0.82
 Host is up (0.00056s latency).
 
 PORT   STATE SERVICE
@@ -98,47 +106,17 @@ PORT   STATE SERVICE
 Nmap done: 256 IP addre
 ```
 
-9. Copy the ip address of the pi: 
-for ethernet: 10.42.0.215
-for wifi: 10.0.0.82
+9. Copy the ip address of the Pi.
 
 10. Check that you can now `ssh` into your Raspberry PI from your PC:
-```
-ssh ubuntu@10.42.0.215
-```
-for wifi:
 ```
 ssh ubuntu@10.0.0.82
 ```
 
-11. It will ask you for the password if you ssh into this for the first time. The default password is just `ubuntu`
+11. It will ask you for the password if you ssh into this for the first time. The default password is `ubuntu`
 
 12. You can now log in again using your newly set password.
 
-13. Download git and clone this repo.
-
-14. Install ros noetic on the pi:
-```
-https://wiki.ros.org/noetic/Installation/Ubuntu
-```
-
-15. Run the following on your PI, so that your pi can connect to the master node on your PC.
-export ROS_MASTER_URI=http://10.42.0.1:11311
-export ROS_IP=10.42.0.215
-
-16. Run the following on your PC:
-export ROS_MASTER_URI=http://10.42.0.1:11311
-export ROS_IP=10.42.0.1
-
-
-### For wifi:
-15. Run the following on your PI:
-export ROS_MASTER_URI=http://10.0.0.59:11311
-export ROS_IP=10.0.0.82
-
-16. Run the following on your PC:
-export ROS_MASTER_URI=http://10.0.0.59:11311
-export ROS_IP=10.0.0.59
 
 NOTE:
 1. If you encounter an error `Lzma library error: Corrupted input data` while writing the image to the SD card, this means the downloaded ubuntu OS image stored in cache is corrupted. To fix this, you can either try to find the cached image and delete them, or uninstall thre rpi-imager using `sudo snap remove rpi-imager`, then reinstall it so that the image will be redownloaded fresh.
@@ -152,17 +130,19 @@ https://docs.docker.com/compose/install/linux/#install-using-the-repository
 
 # 2. Quick Start
 ## NOTE: Make sure to replace the ip addresses in this instructions with your own ip addresses.
-1. Clone this repo to both your Pi and PC.
 
-2. Make sure that Pi is connected to wifi:
+1. Make sure that Pi is connected to wifi:
 ```
 nmap -p 22 10.0.0.0/24 --open
 ```
 
-3. ssh into your Pi from your PC terminal:
+2. ssh into your Pi from your PC terminal:
 ```
 ssh ubuntu@10.0.0.82
 ```
+
+3. Clone this repo to both your Pi and PC if you have not already done so.
+
 ## Option 1. To run in Docker:
 On your PC, cd in to the docker/ directory.
 ```
@@ -192,17 +172,29 @@ docker compose -f docker-compose.pi.yaml down
 ## Option 2. Run LiDAR and Mapping without Docker (Hector SLAM only)
 ### Step 1. Run ROS master node in your PC
 
-1. Build the workspace
+1. Run the following on your PI, so that your pi can connect to the master node on your PC.
+```
+export ROS_MASTER_URI=http://10.0.0.59:11311
+export ROS_IP=10.0.0.82
+```
+
+2. Run the following on your PC:
+```
+export ROS_MASTER_URI=http://10.0.0.59:11311
+export ROS_IP=10.0.0.59
+```
+
+3. Build the workspace
 ```
 catkin_make
 ```
 
-2. Then to ensure that your shell environment is updated to include the latest changes made to your ROS packages, including any new executables, libraries, or environment variables that were generated or modified during the build process, run:
+4 Then to ensure that your shell environment is updated to include the latest changes made to your ROS packages, including any new executables, libraries, or environment variables that were generated or modified during the build process, run:
 ```
 source ./devel/setup.bash
 ```
 
-3. Run master node:
+5. Run master node:
 ```
 roscore
 ```
