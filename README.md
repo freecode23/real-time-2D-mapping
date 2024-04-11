@@ -1,7 +1,7 @@
 # Introduction
 This project is about configure a Raspberry Pi for LiDAR-based mapping, specifically focusing on Hector SLAM and Cartographer mapping techniques. It covers the installation of necessary software on the Raspberry Pi, methods to run the system using Docker, and instructions for executing LiDAR mapping tasks. The documentation is structured to facilitate both Hector SLAM for real-time indoor mapping and Cartographer 
 
-# Table of Contents
+## Table of Contents
 1. [Prerequisites](#1-prerequisites)
 2. [Quick Start](#2-quick-start)  
 2.1. [Run with Docker](#option-1-to-run-in-docker)  
