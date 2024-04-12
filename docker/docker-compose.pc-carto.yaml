@@ -12,11 +12,9 @@ services:
       - /dev/dri:/dev/dri
       - /dev/ttyUSB0:/dev/ttyUSB0
     environment:
-      # - "ROS_MASTER_URI=http://10.42.0.1:11311"
-      # - "ROS_IP=10.42.0.1"
-      - "ROS_MASTER_URI=http://10.0.0.59:11311"
+      - "ROS_MASTER_URI=http://10.0.0.12:11311"
       # This is the ip of cpu_node. we need this to communicate with nodes in other container
-      - "ROS_IP=10.0.0.59"
+      - "ROS_IP=10.0.0.12"
 
       - "ROS_PACKAGE_PATH=/app/src"
       - "DISPLAY=${DISPLAY}"

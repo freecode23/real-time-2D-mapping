@@ -11,7 +11,7 @@ services:
       - /dev/ttyUSB0:/dev/ttyUSB0
     
     environment:
-      - "ROS_MASTER_URI=http://10.0.0.59:11311"
+      - "ROS_MASTER_URI=http://10.0.0.12:11311"
       # the IP address of the Pi container.
       - "ROS_IP=10.0.0.82"
       - "ROS_PACKAGE_PATH=/app/src"

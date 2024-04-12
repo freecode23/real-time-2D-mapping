@@ -1,15 +1,31 @@
 # Introduction
 This project is about configure a Raspberry Pi for LiDAR-based mapping, specifically focusing on Hector SLAM and Cartographer mapping techniques. It covers the installation of necessary software on the Raspberry Pi, methods to run the system using Docker, and instructions for executing LiDAR mapping tasks. The documentation is structured to facilitate both Hector SLAM for real-time indoor mapping and Cartographer. Since we are working with two versions of ROS, we will use Docker to isolate and manage the different environments, ensuring compatibility and simplifying the deployment process for each version on the same hardware without interference.
+NOTE: This has only been tried in dual booted Linux.  
+
 ![Screenshot 2024-04-11 at 3 47 31 PM](https://github.com/freecode23/real-time-2D-mapping/assets/67333705/443ac761-daf4-4661-9805-46e4a012e1a6)
 
 ## Table of Contents
-1. [Prerequisites](#1-prerequisites)
+1. [Prerequisites](#1-prerequisites)  
+1.1 [PC Set Up](#11-pc-set-up)  
+1.2 [Pi Set Up](#12-pi-set-up)  
 2. [Quick Start](#2-quick-start)  
 2.1. [Run with Docker](#option-1-to-run-in-docker)  
 2.2. [Run without Docker](#option-2-run-lidar-and-mapping-without-docker)
 # 1. Prerequisites
-## 1.1 Install Ubuntu OS for your Pi
-The easisest way to set this is to use Raspberry Pi Imager.
+
+## 1.1 PC Set Up
+1. Make sure you have ROS with RVIZ installed on your PC.
+
+2. X11 Permissions: Allow the Docker container to access your X11 server on the host:
+```
+xhost +local:
+```
+
+3. Instal `nmap` and `ifconfig`
+
+## 1.2 Pi Set Up
+We need to install Ubuntu 20.0.4 on your Pi.
+The easiest way to set this is to use Raspberry Pi Imager.
 You can install it using snap if you are in ubuntu 20.04 or lower:
 ```
 sudo snap install rpi-imager
@@ -64,10 +80,10 @@ runcmd:
 ```
 
 7. Get the ip address of your PC by entering `ifconfig` on your terminal. Then you should see something like below:
-For wifi, look for the `wlo` prefix:
+For wifi, look for the `lo` prefix:
 ```
 wlo2: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-        inet 10.0.0.59  netmask 255.255.255.0  broadcast 10.0.0.255
+        inet 10.0.0.12  netmask 255.255.255.0  broadcast 10.0.0.255
         inet6 2601:197:a7f:85f0:1e0c:912:4272:9f0f  prefixlen 64  scopeid 0x0<global>
 ```
 For ethernet look for the `enx` prefix:
@@ -82,7 +98,7 @@ enx00e04c681fa8: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
         TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
 ```
 
-Your PC ip address is the address after `inet`. So in this example it's `10.0.0.59` on wifi and `10.42.0.1` for ethernet.
+Your PC ip address is the address after `inet`. So in this example it's `10.0.0.12` on wifi and `10.42.0.1` for ethernet.
 
 8. With this IP address, you can locate your Raspberry Pi using `nmap`. We will use wifi connection in our example. Simply modify the IP address by replacing the last two segments with 0s. For instance, if your PC's IP address on wifi is 10.0.1.59, change the 1.59 to 0.0 like this:
 ```
@@ -123,10 +139,14 @@ NOTE:
 2. Credits to: https://www.youtube.com/watch?v=P_-_1Ab5jFM
 
 
-## 1.2 Install Docker and docker compose on your Pi and PC.
+## 1.2 Docker Set Up.
+1. Install Docker on you PC with docker compose included.
 ```
-https://docs.docker.com/compose/install/linux/#install-using-the-repository
+sudo apt update
+sudo apt install ros-noetic-desktop-full
 ```
+
+2. Replace all the ROS_MASTER_URI and ROS_IP with your own ip.
 
 # 2. Quick Start
 ## NOTE: Make sure to replace the ip addresses in this instructions with your own ip addresses.
@@ -175,14 +195,14 @@ docker compose -f docker-compose.pi.yaml down
 
 1. Run the following on your PI, so that your pi can connect to the master node on your PC.
 ```
-export ROS_MASTER_URI=http://10.0.0.59:11311
+export ROS_MASTER_URI=http://10.0.0.12:11311
 export ROS_IP=10.0.0.82
 ```
 
 2. Run the following on your PC:
 ```
-export ROS_MASTER_URI=http://10.0.0.59:11311
-export ROS_IP=10.0.0.59
+export ROS_MASTER_URI=http://10.0.0.12:11311
+export ROS_IP=10.0.0.12
 ```
 
 3. Build the workspace
