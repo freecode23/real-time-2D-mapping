@@ -21,7 +21,9 @@ NOTE: This has only been tried in dual booted Linux.
 xhost +local:
 ```
 
-3. Instal `nmap` and `ifconfig`
+3. If you want to ssh into your Pi with ethernet you need to go to Linux system settings, then go to `Wired` > IPv4 , then select Shared to other computers.
+
+4. Instal `nmap` and `ifconfig`
 
 ## 1.2 Pi Set Up
 We need to install Ubuntu 20.0.4 on your Pi.
@@ -113,7 +115,7 @@ Host is up (0.00050s latency).
 PORT   STATE SERVICE
 22/tcp open  ssh
 
-Nmap scan report for 10.0.0.82
+Nmap scan report for 10.110.87.113 
 Host is up (0.00056s latency).
 
 PORT   STATE SERVICE
@@ -127,7 +129,7 @@ Note that for wifi, it can take up to 5 mins until you see the Pi address shows 
 
 10. Check that you can now `ssh` into your Raspberry PI from your PC:
 ```
-ssh ubuntu@10.0.0.82
+ssh ubuntu@10.110.87.113 
 ```
 
 11. It will ask you for the password if you ssh into this for the first time. The default password is `ubuntu`
@@ -159,7 +161,7 @@ nmap -p 22 10.0.0.0/24 --open
 
 3. ssh into your Pi from your PC terminal:
 ```
-ssh ubuntu@10.0.0.82
+ssh ubuntu@10.110.87.113 
 ```
 
 3. Clone this repo to both your Pi and PC if you have not already done so.
@@ -196,7 +198,7 @@ docker compose -f docker-compose.pi.yaml down
 1. Run the following on your PI, so that your pi can connect to the master node on your PC.
 ```
 export ROS_MASTER_URI=http://10.110.220.198:11311
-export ROS_IP=10.0.0.82
+export ROS_IP=10.110.87.113 
 ```
 
 2. Run the following on your PC:

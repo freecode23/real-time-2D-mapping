@@ -13,7 +13,7 @@ services:
     environment:
       - "ROS_MASTER_URI=http://10.110.220.198:11311"
       # the IP address of the Pi container.
-      - "ROS_IP=10.0.0.82"
+      - "ROS_IP=10.110.87.113"
       - "ROS_PACKAGE_PATH=/app/src"
 
     # This will override command written in CMD in Dockerfile

@@ -2,7 +2,7 @@
 ## Note: find wifi interface name from 'ip link'
 # the interface name is something like `wlan0` or `wlp0s20f3`
 # shell:
-nmcli con add type wifi ifname wlan0 con-name NUwave ssid NUwave
+nmcli con add type wifi ifname wlp0s20f3 con-name NUwave ssid NUwave
 nmcli con edit id NUwave
 
 ## This will open nmcli shell to configure the connection
