@@ -8,3 +8,5 @@ hector_nav_msgs/src/hector_nav_msgs/
 .idea/
 .vscode/
 cmake-build-*/
+ip-address.txt
+

@@ -16,8 +16,6 @@ set 802-11-wireless-security.key-mgmt wpa-eap
 set 802-1x.identity <username>
 set 802-1x.password <password>
 
-# PC's ip: 10.110.220.198
-# Pi's ip: 10.110.87.113 
 ## Save and connect
 save
 activate
