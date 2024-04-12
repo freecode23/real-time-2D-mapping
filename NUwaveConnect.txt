@@ -1,0 +1,24 @@
+## Create new connection
+## Note: find wifi interface name from 'ip link'
+# the interface name is something like `wlan0` or `wlp0s20f3`
+# shell:
+nmcli con add type wifi ifname wlan0 con-name NUwave ssid NUwave
+nmcli con edit id NUwave
+
+## This will open nmcli shell to configure the connection
+# nmcli:
+set ipv4.method auto
+set 802-1x.eap peap
+set 802-1x.phase2-auth mschapv2
+set 802-11-wireless-security.key-mgmt wpa-eap
+
+## Authorization (Northeastern login)
+set 802-1x.identity <username>
+set 802-1x.password <password>
+
+# PC's ip: 10.110.220.198
+# Pi's ip: 10.110.87.113 
+## Save and connect
+save
+activate
+quit
