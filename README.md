@@ -3,6 +3,7 @@ This project is about configure a Raspberry Pi for LiDAR-based mapping, specific
 NOTE: This has only been tried in dual booted Linux.  
 
 ![Screenshot 2024-04-11 at 3 47 31 PM](https://github.com/freecode23/real-time-2D-mapping/assets/67333705/443ac761-daf4-4661-9805-46e4a012e1a6)
+<img width="583" alt="Screenshot 2024-04-13 at 7 47 11 PM" src="https://github.com/freecode23/real-time-2D-mapping/assets/67333705/484cc15a-6786-4a6a-ab39-4a32c48e036f">
 
 ## Table of Contents
 1. [Prerequisites](#1-prerequisites)  
